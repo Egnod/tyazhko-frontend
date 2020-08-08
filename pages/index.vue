@@ -13,6 +13,13 @@
         <CBox mb="3">
           <CInput placeholder="URL for short" id="originalLink"/>
         </CBox>
+        <CCollapse mb="3" :is-open="isLinkLoaded">
+          <CTag variant-color="blue">
+            <CLink href="#" isExternal id="loadedLink">
+              loadedlink
+            </CLink>
+          </CTag>
+        </CCollapse>
         <CButton
           :is-loading="isLoadingLink"
           variant="outline"
@@ -26,7 +33,7 @@
 
       <CFlex direction="column" align="center" flex-shrink="0">
         <CBox mb="3">
-          <CTag>Powder by <a href="https://github.com/Egnod/tyazhko">&nbsp;Tyazhko</a>&nbsp;💖</CTag>
+          <CTag rounded="full" variant-color="red">Powder by&nbsp; <u><a href="https://github.com/Egnod/tyazhko">Tyazhko</a></u>&nbsp;💖</CTag>
         </CBox>
       </CFlex>
     </CBox>
@@ -51,10 +58,13 @@ import {
   CFlex,
   CHeading,
   CInput,
-  CTag
+  CTag,
+  CCollapse,
+  CLink,
+  CIcon
 } from '@chakra-ui/vue'
 
-import axios from 'axios';
+import axios from '~/plugins/axios';
 
 export default {
   name: 'App',
@@ -76,11 +86,15 @@ export default {
     CFlex,
     CHeading,
     CInput,
-    CTag
+    CTag,
+    CCollapse,
+    CLink,
+    CIcon
   },
   data () {
     return {
       isLoadingLink: false,
+      isLinkLoaded: false,
       mainStyles: {
         dark: {
           backgroundColor: 'blackAlpha.900',
@@ -115,8 +129,7 @@ export default {
         return
       }
 
-      const serverUrl = "https://tyazhko.herokuapp.com";
-      axios.post(serverUrl + '/', {
+      axios.post(`/`, {
         origin_link: originalLink.value
       }).catch((error) => {
         this.$toast({
@@ -126,18 +139,32 @@ export default {
           duration: 3000,
           isClosable: true,
         })
+
+        this.isLoadingLink = false
       }).then((response) => {
-        console.log(response)
+        document.getElementById("loadedLink").href = `${axios.defaults.baseURL}/${response.data.short_id}`
+        document.getElementById("loadedLink").innerText = `${axios.defaults.baseURL}/${response.data.short_id}`
+
+        const inp = document.createElement('input');
+        document.body.appendChild(inp)
+
+        inp.value = `${axios.defaults.baseURL}/${response.data.short_id}`
+
+        inp.select();
+        document.execCommand('copy',false);
+        inp.remove();
+
         this.$toast({
-          title: "your short!",
-          description: serverUrl + "/" + response.data.short_id,
+          title: "Shorted!",
+          description: "Your short link copy to buffer!",
           status: "success",
           duration: 3000,
           isClosable: true,
         })
-      })
 
-      this.isLoadingLink = false
+        this.isLoadingLink = false
+        this.isLinkLoaded = true
+      })
     }
   }
 }

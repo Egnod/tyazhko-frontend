@@ -1,5 +1,9 @@
 
 export default {
+  env: {
+    baseUrl: process.env.TYAZHKO_SERVER_URL || 'http://localhost:4300'
+  },
+
   /*
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
