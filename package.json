@@ -1,0 +1,19 @@
+{
+  "name": "tyazhko",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@chakra-ui/nuxt": "^0.0.7",
+    "@nuxtjs/emotion": "^0.0.1",
+    "axios": "^0.19.2",
+    "emoji-js": "^3.5.0",
+    "nuxt": "^2.14.0"
+  },
+  "devDependencies": {}
+}
