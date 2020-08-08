@@ -2,4 +2,4 @@ build:
   docker:
     web: staging.dockerfile
 run:
-  web: yarn start --hostname 0.0.0.0 -p $PORT
+  web: yarn build && yarn start --hostname 0.0.0.0 -p $PORT
