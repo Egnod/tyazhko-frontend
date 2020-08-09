@@ -1,0 +1,22 @@
+name: Tyazhko APP
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Docker image
+        run: |
+          echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
+          docker build -f staging.dockerfile -t egnod/tyazhko-frontend:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push egnod/tyazhko-frontend:latest
