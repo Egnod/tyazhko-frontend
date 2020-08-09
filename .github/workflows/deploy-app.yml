@@ -20,3 +20,16 @@ jobs:
       - name: Push Docker image
         run: |
           docker push egnod/tyazhko-frontend:latest
+
+      - name: Update server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            cd ${{ secrets.TARGET_PATH }}
+            docker-compose pull front
+            docker-compose restart front
