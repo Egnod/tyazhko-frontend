@@ -23,8 +23,8 @@
         <CButton
           :is-loading="isLoadingLink"
           variant="outline"
-          color="white"
           mt="3"
+          id="getShortLinkButton"
           @click="getShortLink"
         >
           Get short
@@ -37,6 +37,18 @@
         </CBox>
       </CFlex>
     </CBox>
+
+    <style>
+      #getShortLinkButton{
+        color: white;
+      }
+
+      #getShortLinkButton:hover{
+        color: black;
+      }
+
+    </style>
+
   </div>
 </template>
 
@@ -99,7 +111,7 @@ export default {
         dark: {
           backgroundColor: 'blackAlpha.900',
           color: 'blackAlpha.800'
-        }
+        },
       }
     }
   },
