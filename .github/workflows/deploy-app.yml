@@ -32,4 +32,4 @@ jobs:
           script: |
             cd ${{ secrets.TARGET_PATH }}
             docker-compose pull front
-            docker-compose restart front
+            docker-compose up -d --force-recreate front
